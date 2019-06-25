@@ -7,34 +7,45 @@
 
 #include <avr/io.h>
 
-
 int main(void)
 {
-    DDRA = 0x00; 
-	unsigned char cntavail= 0;
+	DDRA = 0x00; PORTA = 0xFF; 
+	DDRB = 0xFF; PORTB = 0x00; 
 	
-    while (1) 
-    {
-		if(PORTA==0x00){
-			cntavail=4;
-			PORTC= cntavail;
+	unsigned char tempA0 = 0x00;
+	unsigned char tempA1 = 0x00;
+	unsigned char tempA2 = 0x00;
+	unsigned char tempA3 = 0x00;
+	unsigned char cntavail = 4;
+	
+	while(1) {
+		
+		tempA0 = PINA & 0x01; 
+		tempA1 = PINA & 0x02; 
+		tempA2 = PINA & 0x04; 
+		tempA3 = PINA & 0x08; 
+		
+		
+		if(tempA0 == 0x01) {
+			--cntavail;
 		}
-		else if ((PORTA==0x01 )|(PORTA==0x02)|(PORTA==0x04)|(PORTA==0x08)){
-			cntavail=3;
-			PORTC=cntavail;
+		
+		if(tempA1 == 0x02) {
+			--cntavail;
 		}
-		else if((PORTA== 0x03)| (PORTA==0x09)|(PORTA==0x05)|(PORTA==0x06)|(PORTA==0x0A)|(PORTA==0x0C)){
-			cntavail=2;
-			PORTC=2;
+		
+		if(tempA2 == 0x04) {
+			--cntavail;
 		}
-		else if((PORTA== 0x0E)| (PORTA==0x0B)|(PORTA==0x07)|(PORTA==0x0D)){
-			cntavail=1;
-			PORTC=cntavail;
+		
+		if(tempA3 == 0x08) {
+			--cntavail;
 		}
-		else {
-		cntavail=0;
-		PORTC=cntavail;
+		
+		PORTC = cntavail;
+		cntavail = 4; 
 	}
-    }
+
 }
+
 
