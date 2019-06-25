@@ -12,27 +12,29 @@
 
 
 int main(void)
-{
-    
-    DDRA= 0x00; //sets the A's as inputs
-	DDRB = 0xFF;// sets the B's as outputs
-	unsigned char holderA= 0x00;
-	unsigned char holderB= 0x00;
-	
-	//PORTB= 0x00;
-	while(1){
-		holderA=PINA && 0x01;
-		holderB= PINA && 0x02;
-		
-		if((holderA== 0x01) & !(holderB==0x02)){
-			PORTB=0x01;
-		}
-		else{
-			PORTB=0x00;
-		}
+DDRA = 0x00; PORTA = 0xFF;
+   DDRB = 0xFF; PORTB = 0x00;
+
+   //plz work
+   unsigned char tmp1 = 0x00;
+   unsigned char tmp2 = 0x00;
+   unsigned char tmp3 = 0x00;
+   while (1)
+   {
+	   tmp1 = PINA & 0x01;
+	   tmp2 = PINA & 0x02;
+
+	   if( tmp1 == 0x01 && tmp2 == 0x00)
+	   {
+		   tmp3 = (tmp3 & 0xFE) | 0x01;
+	   }
+	   else
+	   {
+		   tmp3 = (tmp3 & 0xFE) | 0x00;
+	   }
+	   PORTB = tmp3;
 		 
 		
     }
 	return 1;
 }
-
